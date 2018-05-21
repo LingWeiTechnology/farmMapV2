@@ -23,7 +23,7 @@ Page({
         title: "警告",
         content: "咱是不是还得给你钱？！！",
         showCancel: false,
-        confirmText: "不不不不"
+        confirmText: "不不test不不"
       })
     }else{
       wx.redirectTo({
