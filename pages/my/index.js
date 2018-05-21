@@ -60,6 +60,8 @@ Page({
       bType: "warn",
       actionText: "退出登录"
     });
+    var app = getApp();
+    app.userInfo = res.userInfo;
     // 存储用户信息到本地
     wx.setStorage({
       key: 'userInfo',

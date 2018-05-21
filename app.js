@@ -5,5 +5,8 @@ AV.init({
   appKey: 'YRb4tW0mekPrVHpCHzokI3Bf'
 })
 App({
-  
+  userInfo: {
+    avatarUrl: null,
+    nickName: '未登录'　
+  }
 })

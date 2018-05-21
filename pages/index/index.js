@@ -8,12 +8,97 @@ let ofoDataTest = require('../../resources/ofo')
 var app = getApp()
 Page({
   data: {
+    userInfo:{},
     scale: 18,
     latitude: 0,
-    longitude: 0
+    longitude: 0,
+    categories :[{ id: 0, name: "全部" }, { id: 1, name: "养猪场" }, { id: 2, name: "养鸡场" }],
+
+    winHeight: "",//窗口高度
+    currentTab: 0, //预设当前项的值
+    scrollLeft: 0, //tab标题的滚动条位置
+    expertList: [{ //假数据
+      img: "avatar.png",
+      name: "欢顔",
+      tag: "知名情感博主",
+      answer: 134,
+      listen: 2234
+    }]
   },
+
+
+  // 滚动切换标签样式
+  switchTab: function (e) {
+    this.setData({
+      currentTab: e.detail.current
+    });
+    this.checkCor();
+  },
+  // 点击标题切换当前页时改变样式
+  swichNav: function (e) {
+    var cur = e.target.dataset.current;
+    if (this.data.currentTaB == cur) { return false; }
+    else {
+      this.setData({
+        currentTab: cur
+      })
+    }
+  },
+  //判断当前滚动超过一屏时，设置tab标题滚动条。
+  checkCor: function () {
+    if (this.data.currentTab > 4) {
+      this.setData({
+        scrollLeft: 300
+      })
+    } else {
+      this.setData({
+        scrollLeft: 0
+      })
+    }
+  },
+
+
 // 页面加载
   onLoad: function (options) {
+
+    wx.getStorage({
+      key: 'userInfo',
+      // 能获取到则显示用户信息，并保持登录状态，不能就什么也不做
+      success: (res) => {
+        wx.hideLoading();
+        this.setData({
+          userInfo: {
+            avatarUrl: res.data.userInfo.avatarUrl,
+            nickName: res.data.userInfo.nickName
+          },
+          bType: res.data.bType,
+          actionText: res.data.actionText,
+          lock: true
+        })
+      }
+    })
+
+
+    var that = this;
+    //  高度自适应
+    wx.getSystemInfo({
+      success: function (res) {
+        var clientHeight = res.windowHeight,
+          clientWidth = res.windowWidth,
+          rpxR = 750 / clientWidth;
+        var calc = clientHeight * rpxR - 180;
+        console.log(calc)
+        that.setData({
+          winHeight: calc
+        });
+      }
+    });
+  
+
+    
+    
+
+
     // 1.获取定时器，用于判断是否已经在计费
     this.timer = options.timer;
 
@@ -84,7 +169,11 @@ Page({
             iconPath: '/images/avatar.png',
             position: {
               left: res.windowWidth - 68,
-              top: res.windowHeight - 155,
+              // top: res.windowHeight - 155,
+              // left: res.windowWidth - 50,
+              // top: res.windowHeight - 500,
+              // left: 20,
+              top: 90,
               width: 45,
               height: 45
             },

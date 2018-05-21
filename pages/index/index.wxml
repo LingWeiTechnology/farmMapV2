@@ -1,14 +1,185 @@
 <!--index.wxml-->
-<view class="container">
-  <map id="ofoMap" 
-  latitude="{{latitude}}" 
-  longitude="{{longitude}}" 
-  scale="{{scale}}" 
-  bindregionchange="bindregionchange" 
-  polyline="{{polyline}}" 
-  markers="{{markers}}" 
-  controls="{{controls}}" 
-  bindmarkertap="bindmarkertap"  
-  bindcontroltap="bindcontroltap" 
-  show-location/>
+<view class="page-body">
+
+
+
+
+<scroll-view scroll-x="true" class="tab-h" scroll-left="{{scrollLeft}}">
+      
+  <!-- <view  bindtap="bindViewTap" class="userinfo">  
+    <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>  
+    <text class="userinfo-nickname">{{userInfo.nickName}}</text>  
+  </view>   -->
+
+<view class="flex-row" style="display: block;">
+        <view class="flex-view-item">
+          <view style= "display:inline-flex; flex-direction:row">
+            <image  class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>  
+            
+
+            <view class="search-content">
+              <image src="/images/search-pic.png" class="search-icon" />
+              <input placeholder="请输入搜索内容" class="search-input" maxlength="30" confirm-type="搜索" bindinput='listenerSearchInput' bindconfirm='toSearch'>
+              </input>
+              <button class='search-btn' bindtap="toSearch">搜索
+              </button>
+              <button class='list-btn' bindtap="toSearch">列表
+              </button>
+            </view> 
+
+            
+          </view>
+        </view>
+        <view class="flex-view-item">
+          <view style= "display:inline-flex; flex-direction:row">
+              <view wx:for-items="{{categories}}" wx:key="id" class="tab-item {{currentTab==item.id?'active':''}}"  data-current="{{item.id}}" bindtap="swichNav" wx:for-items="{{categories}}" wx:key="id" > {{item.name}}
+              </view> 
+
+          </view> 
+        </view>
+</view>
+
+
+
+
+
+
+
+
+ 
+</scroll-view>
+    <!-- <swiper class="tab-content" current="{{currentTab}}" duration="300" bindchange="switchTab"
+     style="height:{{winHeight}}rpx">
+        <swiper-item wx:for="{{[0,1,2,3,4,5,6,7]}}">
+            <scroll-view scroll-y="true" class="scoll-h" >
+                <block wx:for="{{[1,2,3,4,5,6,7,8]}}" wx:key="*this">
+                    <view class="item-ans">
+                        <view class="avatar">
+                            <image class="img" src="http://ookzqad11.bkt.clouddn.com/avatar.png"></image>
+                        </view>
+                        <view class="expertInfo">
+                            <view class="name">欢颜</view>
+                            <view class="tag">知名情感博主</view>
+                            <view class="answerHistory">134个回答，2234人听过 </view>
+                        </view>
+                        <navigator url="/pages/askExpert/expertDetail" class="askBtn">问TA</navigator> 
+                    </view>
+                </block>
+            </scroll-view>
+        </swiper-item>
+    </swiper> -->
+
+
+
+
+     <!-- <view class="type-container"> 
+        <scroll-view class="type-navbar" scroll-x="true">
+            <view class="type-box" wx:for-items="{{categories}}" wx:key="id">
+                <view id="{{item.id}}" class="type-navbar-item {{activeCategoryId == item.id ? 'type-item-on' : ''}}" bindtap="tabClick">
+                    {{item.name}}
+                </view>
+            </view>
+        </scroll-view>
+     </view> 
+    <view class="search-view" style="background:{{ scrollTop === 0 ?'-webkit-linear-gradient(top, rgba(105,195,170, 1), rgba(105,195,170, 0.3))' :( scrollTop<200 ? 'rgba(105,195,170,'+(scrollTop/400+0.3) +')' : 'rgba(105,195,170,1)')  }} ">
+    <view class="search-content">
+      <image src="/images/search-pic.png" class="search-icon" />
+      <input placeholder="请输入搜索内容" class="search-input" maxlength="30" confirm-type="搜索" bindinput='listenerSearchInput' bindconfirm='toSearch'>
+      </input>
+      <button class='search-btn' bindtap="toSearch">搜索
+      </button>
+    </view>
+  </view> -->
+    <!-- <view wx:if="{{noticeList}}" class="notice"> -->
+      <!-- <view class="notice_iteml">公告：</view>
+      <swiper wx:if="{{noticeList}}" class="notice_swiper" vertical="true" autoplay="true" circular="true" interval="3000">
+        <navigator wx:for-items="{{noticeList.dataList}}" wx:key="id" url="/pages/notice/show?id={{item.id}}" open-type="navigate">
+          <swiper-item >
+            <view class="notice_itemr">{{item.title}}</view>
+          </swiper-item>
+        </navigator>
+      </swiper>
+    </view> -->
+    <!-- <view class="coupons" hidden="{{hasNoCoupons}}">
+        <scroll-view class="coupons-scroll" scroll-x="true">
+            <view class="coupons-item" wx:for-items="{{coupons}}" wx:for-index="idx" wx:key="id"  bindtap="gitCoupon" data-id="{{item.id}}">
+               <view style="font-size: 35rpx"> ￥ {{item.moneyMax}}元 </view>
+               <view> {{item.name}} </view>
+               <view> 满 {{item.moneyHreshold}} 元使用 </view>
+               <view wx:if="{{item.dateEndType == 0}}"> {{item.dateEnd}} 前有效 </view>
+               <view wx:if="{{item.dateEndType == 1}}"> 领取 {{item.dateEndDays}} 天内有效 </view>
+            </view>
+        </scroll-view>
+    </view>
+    <view class="goods-container">
+        <view class="goods-box" wx:for-items="{{goods}}" wx:key="{{index}}" bindtap="toDetailsTap" data-id="{{item.id}}">
+           <view class="img-box">
+              <image src="{{item.pic}}_m" class="image" mode="aspectFill" lazy-load="true"/>
+           </view>
+           <view class="goods-title">{{item.name}}</view>
+           <view style='display:flex;'>
+            <view class="goods-price">¥ {{item.minPrice}}</view>
+            <view wx:if="{{item.originalPrice && item.originalPrice > 0}}" class="goods-price" style='color:#aaa;text-decoration:line-through'>¥ {{item.originalPrice}}</view>
+           </view>           
+        </view>
+    </view> -->
+    
+    <!-- <view class="page-section"> -->
+      <!-- <view class="page-section-title">
+        <text>flex-direction: column\n纵向布局</text>
+      </view> -->
+        <!-- <view class="type-container">
+        {{scale}}
+        <scroll-view class="type-navbar" scroll-x="true">
+           
+        </scroll-view>
+    </view> -->
+    
+      <!-- <view class="flex-wrp" style="flex-direction:column;">
+        
+        <view class="search-view" style="background:{{ scrollTop === 0 ?'-webkit-linear-gradient(top, rgba(105,195,170, 1), rgba(105,195,170, 0.3))' :( scrollTop<200 ? 'rgba(105,195,170,'+(scrollTop/400+0.3) +')' : 'rgba(105,195,170,1)')  }} ">
+          <view class="search-content">
+            <image src="/images/search-pic.png" class="search-icon" />
+            <input placeholder="请输入搜索内容" class="search-input" maxlength="30" confirm-type="搜索" bindinput='listenerSearchInput' bindconfirm='toSearch'>
+            </input>
+            <button class='search-btn' bindtap="toSearch">搜索
+            </button>
+          </view>
+        </view>
+         -->
+        <!-- <view class="flex-item flex-item-V"> -->
+         <!-- <view class="buttonstyle" > -->
+<!-- 
+          <button form-type="reset" class="con-button" hover-class="hoverbutton">{{item.id}}</button>
+          <button form-type="submit" class="con-button" hover-class="hoverbutton">{{item.name}}</button> -->
+
+          <!-- <view class="type-box" wx:for-items="{{categories}}" wx:key="id">
+                  <view id="{{item.id}}" class="type-navbar-item {{activeCategoryId == item.id ? 'type-item-on' : ''}}" bindtap="tabClick">
+                      {{item.name}}
+                  </view>
+          </view> -->
+
+        <!-- </view>  -->
+        
+  
+        <!-- </view> -->
+     
+         <view class="container">
+          <map id="ofoMap" 
+            latitude="{{latitude}}" 
+            longitude="{{longitude}}" 
+            scale="{{scale}}" 
+            bindregionchange="bindregionchange" 
+            polyline="{{polyline}}" 
+            markers="{{markers}}" 
+            controls="{{controls}}" 
+            bindmarkertap="bindmarkertap"  
+            bindcontroltap="bindcontroltap" 
+            show-location/>
+        </view> 
+
+
+      <!-- </view>
+    </view> -->
+  
 </view>
