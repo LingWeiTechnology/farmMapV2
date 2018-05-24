@@ -26,6 +26,13 @@ Page({
     }]
   },
 
+  toList: function () {
+    wx.navigateTo({
+      url: '../list/list',
+    })
+
+  },
+
 
   // 滚动切换标签样式
   switchTab: function (e) {
@@ -321,6 +328,11 @@ Page({
           url: '../my/index'
         });
         break; 
+      // 点击list控件，跳转到list列表
+      case 6: wx.navigateTo({
+        url: '../my/index'
+      });
+        break;   
       default: break;
     }
   },
@@ -379,3 +391,5 @@ Page({
     this.mapCtx.moveToLocation();
   }
 })
+
+

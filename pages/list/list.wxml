@@ -1,0 +1,5 @@
+<!--pages/list/list.wxml-->
+
+<view>
+<text>list，it works!</text>
+</view>

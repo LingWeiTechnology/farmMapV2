@@ -7,7 +7,8 @@
     "pages/my/index",
     "pages/wallet/index",
     "pages/charge/index",
-    "pages/logs/logs"
+    "pages/logs/logs",
+    "pages/list/list"
   ],
   "window":{
     "backgroundTextStyle":"light",
